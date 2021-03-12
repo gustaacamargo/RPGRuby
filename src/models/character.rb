@@ -3,11 +3,17 @@ class Character
   attr_accessor :name
   attr_accessor :age
 
-  def initialize(life, attack, defense, intelligence, force)
-    @life = life
-    @attack = attack
-    @defense = defense
-    @intelligence = intelligence
-    @force = force
+  def initialize(name, age, race)
+    @life = race.life
+    @attack = race.attack
+    @defense = race.defense
+    @intelligence = race.intelligence
+    @force = race.force
+    @race = race
+    @name = name
+    @age = age
+  end
+
+  def calculate
   end
 end
