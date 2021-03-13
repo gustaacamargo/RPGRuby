@@ -13,11 +13,11 @@ class CharacterController
     'Personagem cadastrado com sucesso'
   end
 
-  def return_all_characters
+  def return_characters_by_race(race_name)
     characters = @db.return_all
 
     characters.each do |character|
-      yield(character) if block_given?
+      yield(character) if block_given? && character.race.name == race_name
     end
   end
 end

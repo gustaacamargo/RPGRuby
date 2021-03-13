@@ -49,20 +49,15 @@ class CharactersView
   def select_by_race
     race_selected = select_race_to_show
     system('clear')
-    @character_controller.return_all_characters do |character|
-      show = false
-      show = true if character.race.name == race_selected
-
-      if show
-        puts "\n\n===== #{character.name} ===== \n\n"
-        puts "Idade: #{character.age}"
-        puts "Ataque: #{character.attack}"
-        puts "Defesa: #{character.defense}"
-        puts "Força: #{character.force}"
-        puts "Inteligência: #{character.intelligence}"
-        puts "Vida: #{character.life}"
-        puts "Raça: #{character.race.name}\n"
-      end
+    @character_controller.return_characters_by_race(race_selected) do |character|
+      puts "\n\n===== #{character.name} ===== \n\n"
+      puts "Idade: #{character.age}"
+      puts "Ataque: #{character.attack}"
+      puts "Defesa: #{character.defense}"
+      puts "Força: #{character.force}"
+      puts "Inteligência: #{character.intelligence}"
+      puts "Vida: #{character.life}"
+      puts "Raça: #{character.race.name}\n"
     end
   end
 
