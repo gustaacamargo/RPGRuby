@@ -1,11 +1,13 @@
 require 'faker'
 require_relative './controllers/character_controller'
+require_relative './controllers/character_class_controller'
 require_relative './models/dwarf'
 require_relative './models/elf'
 require_relative './models/human'
 require_relative './models/orc'
 
 character_controller = CharacterController.new
+character_class_controller = CharacterClassController.new
 
 system('clear')
 option = 0
@@ -81,20 +83,84 @@ def define_name(option_name)
   name
 end
 
-while option != 6
+def define_skills
+  end_loop = 0
+  skills = []
+  while end_loop.zero?
+    system('clear')
+    puts 'Descreva a habilidade:'
+    print '> '
+    skills << gets.strip.to_s
+
+    exit_loop = 0
+    while exit_loop.zero?
+      puts("\nDeseja adicionar mais uma habilidade? (1 pra sim/0 pra não)")
+      print '> '
+      response = gets.strip.to_i
+      exit_loop = 1 unless response.negative? || response > 1
+      end_loop = 1 unless response != 0
+    end
+  end
+
+  skills
+end
+
+def define_attributes
+  system('clear')
+  attributes = {
+    life: 0,
+    attack: 0,
+    defense: 0,
+    intelligence: 0,
+    force: 0
+  }
+
+  puts 'Valor da vida para essa classe: (Se não for alterar, digite 0)'
+  print '> '
+  life = gets.strip.to_i
+  attributes[:life] = life unless life.zero?
+
+  puts 'Valor do ataque para essa classe: (Se não for alterar, digite 0)'
+  print '> '
+  attack = gets.strip.to_i
+  attributes[:attack] = attack unless attack.zero?
+
+  puts 'Valor da defesa para essa classe: (Se não for alterar, digite 0)'
+  print '> '
+  defense = gets.strip.to_i
+  attributes[:defense] = defense unless defense.zero?
+
+  puts 'Valor da inteligência para essa classe: (Se não for alterar, digite 0)'
+  print '> '
+  intelligence = gets.strip.to_i
+  attributes[:intelligence] = intelligence unless intelligence.zero?
+
+  puts 'Valor da força para essa classe: (Se não for alterar, digite 0)'
+  print '> '
+  force = gets.strip.to_i
+  attributes[:force] = force unless force.zero?
+
+  attributes
+end
+
+# tudo que está acima passar para outra pasta e arquivos
+
+while option != 7
+  system('clear')
   puts "============ ◈ RPGRuby ◈ ============\n\n"
   puts "O que deseja fazer?\n\n"
   puts '1 - Cadastrar personagem'
-  puts '2 - Treinar personagem'
-  puts '3 - Calcular atributos do personagem'
-  puts '4 - Listar persongens por raça'
-  puts '5 - Listar personagens por classe'
-  puts '6 - Sair'
+  puts '2 - Cadastrar classe de personagem'
+  puts '3 - Treinar personagem'
+  puts '4 - Calcular atributos do personagem'
+  puts '5 - Listar persongens por raça'
+  puts '6 - Listar personagens por classe'
+  puts '7 - Sair'
   print "\n> "
 
   option = gets.strip.to_i
 
-  if option >= 1 && option <= 6
+  if option >= 1 && option <= 7
     case option
     when 1
       option = 0
@@ -113,16 +179,30 @@ while option != 6
       puts response
       clear_with_message
     when 2
-      puts 'op2'
+      system('clear')
+      puts 'Digite o nome para essa classe:'
+      print '> '
+      name = gets.strip.to_s
+      skills = define_skills
+      attributes = define_attributes
+
+      response = character_class_controller.store(name, skills, attributes)
+      puts response
+      clear_with_message
     when 3
       puts 'op3'
     when 4
+      puts 'op4'
+    when 5
       system('clear')
       puts "\n\nLista de personagens\n"
       puts character_controller.return_all_characters
       clear_with_message
-    when 5
-      puts 'op5'
+    when 6
+      system('clear')
+      puts "\n\nLista de classes\n"
+      puts character_class_controller.return_all_characters_classes
+      clear_with_message
     else
       puts 'Você escolheu sair...'
       clear_with_message
