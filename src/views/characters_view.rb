@@ -10,7 +10,7 @@ class CharactersView
   end
 
   def insert_character
-    race_option = select_race
+    race_option = select_race('Escolha a raça do seu personagem')
     race = return_race_selected(race_option)
 
     option_name = choose_option_for_name
@@ -30,13 +30,49 @@ class CharactersView
     puts @character_controller.return_all_characters
   end
 
+  def select_race_to_show
+    race = ''
+    race_option = select_race('Deseja listar personagens de qual raça?')
+    case race_option
+    when 1
+      race = 'Humano'
+    when 2
+      race = 'Elfo'
+    when 3
+      race = 'Anão'
+    when 4
+      race = 'Orc'
+    end
+    race
+  end
+
+  def select_by_race
+    race_selected = select_race_to_show
+    system('clear')
+    @character_controller.return_all_characters do |character|
+      show = false
+      show = true if character.race.name == race_selected
+
+      if show
+        puts "\n\n===== #{character.name} ===== \n\n"
+        puts "Idade: #{character.age}"
+        puts "Ataque: #{character.attack}"
+        puts "Defesa: #{character.defense}"
+        puts "Força: #{character.force}"
+        puts "Inteligência: #{character.intelligence}"
+        puts "Vida: #{character.life}"
+        puts "Raça: #{character.race.name}\n"
+      end
+    end
+  end
+
   private
-  def select_race
+  def select_race(title)
     race_option = 0
 
     while race_option < 1 || race_option > 4
       system('clear')
-      puts "Escolha a raça do seu personagem\n\n"
+      puts "#{title}\n\n"
       puts '1 - Humano'
       puts '2 - Elfo'
       puts '3 - Anão'

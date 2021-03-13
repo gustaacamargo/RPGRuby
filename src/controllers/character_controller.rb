@@ -16,15 +16,8 @@ class CharacterController
   def return_all_characters
     characters = @db.return_all
 
-    characters.map do |character|
-      puts "\n\n===== #{character.name} ===== \n\n"
-      puts "Idade: #{character.age}"
-      puts "Ataque: #{character.attack}"
-      puts "Defesa: #{character.defense}"
-      puts "Força: #{character.force}"
-      puts "Inteligência: #{character.intelligence}"
-      puts "Vida: #{character.life}"
-      puts "Raça: #{character.race.name}\n"
+    characters.each do |character|
+      yield(character) if block_given?
     end
   end
 end

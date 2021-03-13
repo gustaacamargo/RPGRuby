@@ -43,7 +43,7 @@ while option != 7
     when 4
       puts 'op4'
     when 5
-      character_view.list_characters
+      character_view.select_by_race
       clear_with_message
     when 6
       character_class_view.list_classes
