@@ -1,7 +1,6 @@
 class Character
   # Todos os personagens tem nome, idade, vida, ataque, defesa, inteligência, força, e uma Raça (Humano, Elfo, Orc, Anão - usar herança).
-  attr_accessor :name
-  attr_accessor :age
+  attr_accessor :name, :age, :life, :attack, :defense, :intelligence, :force, :race
 
   def initialize(name, age, race)
     @life = race.life

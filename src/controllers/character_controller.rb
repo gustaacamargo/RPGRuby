@@ -7,15 +7,24 @@ class CharacterController
   end
 
   def store(name, age, race)
-    if race.instance_of?(Race)
-      character = Character.new(name, age, race)
-      @db.add(character)
-    else
-      puts 'Erro ao cadastrar personagem, verifique se tudo está correto'
-    end
+    character = Character.new(name, age, race)
+    @db.add(character)
+
+    'Personagem cadastrado com sucesso'
   end
 
   def return_all_characters
-    @db.return_all
+    characters = @db.return_all
+
+    characters.map do |character|
+      puts "\n\n===== #{character.name} ===== \n\n"
+      puts "Idade: #{character.age}"
+      puts "Ataque: #{character.attack}"
+      puts "Defesa: #{character.defense}"
+      puts "Força: #{character.force}"
+      puts "Inteligência: #{character.intelligence}"
+      puts "Vida: #{character.life}"
+      puts "Raça: #{character.race.name}\n"
+    end
   end
 end
