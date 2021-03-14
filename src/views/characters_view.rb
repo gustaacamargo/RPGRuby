@@ -50,6 +50,25 @@ class CharactersView
     end
   end
 
+  def calculate_atk_def
+    character_selected = -1
+    characters = @character_controller.return_all_characters
+
+    while character_selected.negative? || character_selected > (characters.length - 1)
+      system('clear')
+      puts "Selecione o personagem que deseja calcular ataque e defesa:\n"
+      characters.map.with_index do |character, index|
+        puts "#{index} - #{character.name}"
+      end
+
+      print '> '
+      character_selected = gets.strip.to_i
+    end
+    character = characters[character_selected]
+    puts "\nAtaque total: #{character.calculate_atk_def[:attack]}"
+    puts "Defesa total: #{character.calculate_atk_def[:defense]}"
+  end
+
   private
   def return_name_of_classes(classes)
     names = []

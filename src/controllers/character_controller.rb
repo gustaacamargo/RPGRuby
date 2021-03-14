@@ -20,6 +20,7 @@ class CharacterController
     return_by_name_of_something(characters, race_name, 'race', &block)
   end
 
-  def calculate_atk_def
+  def return_all_characters
+    @db.return_all
   end
 end

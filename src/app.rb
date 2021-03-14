@@ -41,7 +41,8 @@ while option != 7
     when 3
       puts 'op3'
     when 4
-      puts 'op4'
+      character_view.calculate_atk_def
+      clear_with_message
     when 5
       character_view.select_by_race
       clear_with_message

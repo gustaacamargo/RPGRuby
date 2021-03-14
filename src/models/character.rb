@@ -14,7 +14,18 @@ class Character
     @classes = classes
   end
 
-  def calculate
+  def calculate_atk_def
+    total_attack_from_classes = 0
+    total_defense_from_classes = 0
+    @classes.map do |character_class|
+      total_attack_from_classes += character_class.attack unless character_class.attack.nil?
+      total_defense_from_classes += character_class.defense unless character_class.defense.nil?
+    end
+
+    {
+      attack: total_attack_from_classes + @attack,
+      defense: total_defense_from_classes + @defense
+    }
   end
 
   def add_class(character_class)
