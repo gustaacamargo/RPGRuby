@@ -1,9 +1,11 @@
 require 'faker'
 require_relative './views/characters_view'
 require_relative './views/characters_class_view'
+require_relative './controllers/character_class_controller'
 
-character_view = CharactersView.new
-character_class_view = CharactersClassView.new
+character_class_controller = CharacterClassController.new
+character_view = CharactersView.new(character_class_controller)
+character_class_view = CharactersClassView.new(character_class_controller)
 
 system('clear')
 option = 0
@@ -43,6 +45,7 @@ while option != 7
     when 5
       character_view.select_by_race
     when 6
+      character_class_view.list_classes
       character_view.select_by_class
     else
       puts 'Você escolheu sair...'

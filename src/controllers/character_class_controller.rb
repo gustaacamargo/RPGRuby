@@ -4,10 +4,10 @@ require_relative '../models/character_class'
 class CharacterClassController
   def initialize
     @db = CharactersClassDb.new
-    store('Construtor', ['Construir casas'], { force: 1, intelligence: 1, life: -2 })
-    store('Ferreiro', ['Construir espadas', 'Construir armaduras'], { force: 2, attack: 1 })
-    store('Curandeiro', ['Curar outras unidades'], { defense: 3, attack: -1, intelligence: 3 })
-    store('Guerreiro', %w[Atacar Defender], { force: 2, attack: 3, defense: 2 })
+    # store('Construtor', ['Construir casas'], { force: 1, intelligence: 1, life: -2 })
+    # store('Ferreiro', ['Construir espadas', 'Construir armaduras'], { force: 2, attack: 1 })
+    # store('Curandeiro', ['Curar outras unidades'], { defense: 3, attack: -1, intelligence: 3 })
+    # store('Guerreiro', %w[Atacar Defender], { force: 2, attack: 3, defense: 2 })
   end
 
   def store(name, skills, attributes)

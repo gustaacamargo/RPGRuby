@@ -6,9 +6,9 @@ require_relative '../models/human'
 require_relative '../models/orc'
 
 class CharactersView
-  def initialize
+  def initialize(character_class_controller)
     @character_controller = CharacterController.new
-    @character_class_controller = CharacterClassController.new
+    @character_class_controller = character_class_controller
   end
 
   def insert_character
@@ -62,7 +62,6 @@ class CharactersView
 
   def return_selected_class(classes)
     all_classes = @character_class_controller.return_all_characters_classes
-
     selected_class = -1
     while selected_class.negative? || selected_class > (all_classes.length - 1)
       system('clear')
@@ -77,7 +76,7 @@ class CharactersView
   end
 
   def select_by_class
-    selected_class = return_selected_class
+    selected_class = return_selected_class([])
 
     name_of_character_class_selected = selected_class.name
     system('clear')

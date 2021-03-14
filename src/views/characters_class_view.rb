@@ -1,8 +1,8 @@
 require_relative '../controllers/character_class_controller'
 
 class CharactersClassView
-  def initialize
-    @character_class_controller = CharacterClassController.new
+  def initialize(character_class_controller)
+    @character_class_controller = character_class_controller
   end
 
   def insert_character_class
