@@ -45,7 +45,6 @@ while option != 7
     when 5
       character_view.select_by_race
     when 6
-      character_class_view.list_classes
       character_view.select_by_class
     else
       puts 'Você escolheu sair...'

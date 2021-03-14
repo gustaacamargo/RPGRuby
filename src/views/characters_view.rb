@@ -12,21 +12,25 @@ class CharactersView
   end
 
   def insert_character
-    character_class = select_class
+    if @character_class_controller.return_all_characters_classes.length.positive?
+      character_class = select_class
 
-    race_option = select_race('Escolha a raça do seu personagem')
-    race = return_race_selected(race_option)
+      race_option = select_race('Escolha a raça do seu personagem')
+      race = return_race_selected(race_option)
 
-    option_name = choose_option_for_name
-    name = define_name(option_name)
+      option_name = choose_option_for_name
+      name = define_name(option_name)
 
-    system('clear')
-    puts 'Agora digite a idade do seu personagem'
-    print '> '
-    age = gets.strip.to_i
+      system('clear')
+      puts 'Agora digite a idade do seu personagem'
+      print '> '
+      age = gets.strip.to_i
 
-    response = @character_controller.store(name, age, race, character_class)
-    puts response
+      response = @character_controller.store(name, age, race, character_class)
+      puts response
+    else
+      puts 'Por favor, cadastre pelo menos uma classe antes de continuar'
+    end
   end
 
   def list_characters
@@ -76,21 +80,25 @@ class CharactersView
   end
 
   def select_by_class
-    selected_class = return_selected_class([])
+    if @character_class_controller.return_all_characters_classes.length.positive?
+      selected_class = return_selected_class([])
 
-    name_of_character_class_selected = selected_class.name
-    system('clear')
-    @character_controller.return_characters_by_something(name_of_character_class_selected, 'class') do |character|
-      puts "\n\n===== #{character.name} ===== \n\n"
-      puts "Idade: #{character.age}"
-      # puts "Ataque: #{character.attack}"
-      # puts "Defesa: #{character.defense}"
-      puts "Força: #{character.force}"
-      puts "Inteligência: #{character.intelligence}"
-      puts "Vida: #{character.life}"
-      puts "Raça: #{character.race.name}"
-      puts "Classes: #{return_name_of_classes(character.classes)}\n"
-      puts "Habilidades: #{character.skills}\n"
+      name_of_character_class_selected = selected_class.name
+      system('clear')
+      @character_controller.return_characters_by_something(name_of_character_class_selected, 'class') do |character|
+        puts "\n\n===== #{character.name} ===== \n\n"
+        puts "Idade: #{character.age}"
+        # puts "Ataque: #{character.attack}"
+        # puts "Defesa: #{character.defense}"
+        puts "Força: #{character.force}"
+        puts "Inteligência: #{character.intelligence}"
+        puts "Vida: #{character.life}"
+        puts "Raça: #{character.race.name}"
+        puts "Classes: #{return_name_of_classes(character.classes)}\n"
+        puts "Habilidades: #{character.skills}\n"
+      end
+    else
+      puts 'Sem classes cadastradas'
     end
   end
 
@@ -114,20 +122,23 @@ class CharactersView
   def calculate_atk_def
     character_selected = -1
     characters = @character_controller.return_all_characters
+    if characters.length.positive?
+      while character_selected.negative? || character_selected > (characters.length - 1)
+        system('clear')
+        puts "Selecione o personagem que deseja calcular ataque e defesa:\n"
+        characters.map.with_index do |character, index|
+          puts "#{index} - #{character.name}"
+        end
 
-    while character_selected.negative? || character_selected > (characters.length - 1)
-      system('clear')
-      puts "Selecione o personagem que deseja calcular ataque e defesa:\n"
-      characters.map.with_index do |character, index|
-        puts "#{index} - #{character.name}"
+        print '> '
+        character_selected = gets.strip.to_i
       end
-
-      print '> '
-      character_selected = gets.strip.to_i
+      character = characters[character_selected]
+      puts "\nAtaque total: #{character.calculate_atk_def[:attack]}"
+      puts "Defesa total: #{character.calculate_atk_def[:defense]}"
+    else
+      puts 'Sem personagens cadastrados'
     end
-    character = characters[character_selected]
-    puts "\nAtaque total: #{character.calculate_atk_def[:attack]}"
-    puts "Defesa total: #{character.calculate_atk_def[:defense]}"
   end
 
   private
