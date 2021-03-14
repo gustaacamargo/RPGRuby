@@ -1,4 +1,5 @@
 require_relative '../controllers/character_controller'
+require_relative '../controllers/character_class_controller'
 require_relative '../models/dwarf'
 require_relative '../models/elf'
 require_relative '../models/human'
@@ -7,9 +8,12 @@ require_relative '../models/orc'
 class CharactersView
   def initialize
     @character_controller = CharacterController.new
+    @character_class_controller = CharacterClassController.new
   end
 
   def insert_character
+    character_class = select_class
+
     race_option = select_race('Escolha a raça do seu personagem')
     race = return_race_selected(race_option)
 
@@ -21,13 +25,55 @@ class CharactersView
     print '> '
     age = gets.strip.to_i
 
-    response = @character_controller.store(name, age, race)
+    response = @character_controller.store(name, age, race, character_class)
     puts response
   end
 
   def list_characters
     puts "\n\nLista de personagens\n"
     puts @character_controller.return_all_characters
+  end
+
+  def select_by_race
+    race_selected = select_race_to_show
+    system('clear')
+    @character_controller.return_characters_by_race(race_selected) do |character|
+      puts "\n\n===== #{character.name} ===== \n\n"
+      puts "Idade: #{character.age}"
+      puts "Ataque: #{character.attack}"
+      puts "Defesa: #{character.defense}"
+      puts "Força: #{character.force}"
+      puts "Inteligência: #{character.intelligence}"
+      puts "Vida: #{character.life}"
+      puts "Raça: #{character.race.name}"
+      puts "Classes: #{return_name_of_classes(character.classes)}\n"
+    end
+  end
+
+  private
+  def return_name_of_classes(classes)
+    names = []
+    classes.map do |character_class|
+      names << character_class.name
+    end
+
+    names.to_s
+  end
+
+  def select_class
+    option = -1
+    characters_classes = @character_class_controller.return_all_characters_classes
+    while option.negative? || option > (characters_classes.length - 1)
+      system('clear')
+      puts "Selecione a classe inicial do seu personagem\n"
+      characters_classes.map.with_index do |character_class, index|
+        puts "#{index} - #{character_class.name}"
+      end
+
+      print '> '
+      option = gets.strip.to_i
+    end
+    characters_classes[option]
   end
 
   def select_race_to_show
@@ -46,22 +92,6 @@ class CharactersView
     race
   end
 
-  def select_by_race
-    race_selected = select_race_to_show
-    system('clear')
-    @character_controller.return_characters_by_race(race_selected) do |character|
-      puts "\n\n===== #{character.name} ===== \n\n"
-      puts "Idade: #{character.age}"
-      puts "Ataque: #{character.attack}"
-      puts "Defesa: #{character.defense}"
-      puts "Força: #{character.force}"
-      puts "Inteligência: #{character.intelligence}"
-      puts "Vida: #{character.life}"
-      puts "Raça: #{character.race.name}\n"
-    end
-  end
-
-  private
   def select_race(title)
     race_option = 0
 
