@@ -4,7 +4,13 @@ module Returner
     deep = true unless other_key.empty?
     array.each do |item|
       if deep
-        yield(item) if block_given? && item.public_send(other_key).name == name
+        if other_key == 'class'
+          item.classes.each do |character_class|
+            yield(item) if block_given? && character_class.name == name
+          end
+        elsif block_given? && item.public_send(other_key).name == name
+          yield(item)
+        end
       elsif block_given? && item.name == name
         yield(item)
       end

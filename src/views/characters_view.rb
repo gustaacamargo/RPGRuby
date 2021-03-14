@@ -34,10 +34,38 @@ class CharactersView
     puts @character_controller.return_all_characters
   end
 
+  def select_by_class
+    all_classes = @character_class_controller.return_all_characters_classes
+    selected_class = -1
+    while selected_class.negative? || selected_class > (all_classes.length - 1)
+      system('clear')
+      puts 'Deseja listar personagens de qual classe?'
+      all_classes.map.with_index do |character_class, index|
+        puts "#{index} - #{character_class.name}"
+      end
+      print "\n> "
+      selected_class = gets.strip.to_i
+    end
+
+    name_of_character_class_selected = all_classes[selected_class].name
+    system('clear')
+    @character_controller.return_characters_by_something(name_of_character_class_selected, 'class') do |character|
+      puts "\n\n===== #{character.name} ===== \n\n"
+      puts "Idade: #{character.age}"
+      puts "Ataque: #{character.attack}"
+      puts "Defesa: #{character.defense}"
+      puts "Força: #{character.force}"
+      puts "Inteligência: #{character.intelligence}"
+      puts "Vida: #{character.life}"
+      puts "Raça: #{character.race.name}"
+      puts "Classes: #{return_name_of_classes(character.classes)}\n"
+    end
+  end
+
   def select_by_race
     race_selected = select_race_to_show
     system('clear')
-    @character_controller.return_characters_by_race(race_selected) do |character|
+    @character_controller.return_characters_by_something(race_selected, 'race') do |character|
       puts "\n\n===== #{character.name} ===== \n\n"
       puts "Idade: #{character.age}"
       puts "Ataque: #{character.attack}"

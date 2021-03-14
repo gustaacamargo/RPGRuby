@@ -28,9 +28,4 @@ class CharacterClassController
   def return_all_characters_classes
     @db.return_all
   end
-
-  def return_characters_by_class(class_name, &block)
-    characters = @db.return_all
-    return_by_name_of_something(characters, class_name, 'class', &block)
-  end
 end

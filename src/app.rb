@@ -47,7 +47,7 @@ while option != 7
       character_view.select_by_race
       clear_with_message
     when 6
-      character_class_view.list_classes
+      character_view.select_by_class
       clear_with_message
     else
       puts 'Você escolheu sair...'

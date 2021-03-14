@@ -15,9 +15,9 @@ class CharacterController
     'Personagem cadastrado com sucesso'
   end
 
-  def return_characters_by_race(race_name, &block)
+  def return_characters_by_something(something, key, &block)
     characters = @db.return_all
-    return_by_name_of_something(characters, race_name, 'race', &block)
+    return_by_name_of_something(characters, something, key, &block)
   end
 
   def return_all_characters
