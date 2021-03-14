@@ -52,24 +52,27 @@ class CharactersView
         selected_character = gets.strip.to_i
       end
       character = all_characters[selected_character]
+      if @character_class_controller.return_all_characters_classes.length == character.classes.length
+        puts 'Sem classes disponíveis para treinar!'
+      else
+        character_class_selected = return_selected_class(character.classes, 'Deseja treinar qual classe?')
 
-      character_class_selected = return_selected_class(character.classes)
+        character.add_class(character_class_selected)
+        character.add_skills([character_class_selected])
 
-      character.add_class(character_class_selected)
-      character.add_skills([character_class_selected])
-
-      puts 'Classe adicionada ao personagem!'
+        puts 'Classe adicionada ao personagem!'
+      end
     else
       puts 'Sem personagens para treinar'
     end
   end
 
-  def return_selected_class(classes)
+  def return_selected_class(classes, message)
     all_classes = @character_class_controller.return_all_characters_classes
     selected_class = -1
     while selected_class.negative? || selected_class > (all_classes.length - 1)
       system('clear')
-      puts 'Deseja listar personagens de qual classe?'
+      puts message
       all_classes.map.with_index do |character_class, index|
         puts "#{index} - #{character_class.name}" unless classes.any? { |c_class| c_class.name == character_class.name }
       end
@@ -81,7 +84,7 @@ class CharactersView
 
   def select_by_class
     if @character_class_controller.return_all_characters_classes.length.positive?
-      selected_class = return_selected_class([])
+      selected_class = return_selected_class([], 'Deseja listar personagens de qual classe?')
 
       name_of_character_class_selected = selected_class.name
       system('clear')
