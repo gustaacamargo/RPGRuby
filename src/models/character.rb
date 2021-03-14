@@ -1,6 +1,6 @@
 class Character
   # Todos os personagens tem nome, idade, vida, ataque, defesa, inteligência, força, e uma Raça (Humano, Elfo, Orc, Anão - usar herança).
-  attr_accessor :name, :age, :life, :attack, :defense, :intelligence, :force, :race, :classes
+  attr_accessor :name, :age, :life, :attack, :defense, :intelligence, :force, :race, :classes, :skills
 
   def initialize(name, age, race, classes)
     @life = race.life
@@ -12,6 +12,8 @@ class Character
     @name = name
     @age = age
     @classes = classes
+    @skills = []
+    add_skills(classes)
   end
 
   def calculate_atk_def
@@ -29,6 +31,14 @@ class Character
   end
 
   def add_class(character_class)
-    @classes << character_class
+    @classes << character_class unless @classes.any? { |c_class| c_class.name == character_class.name }
+  end
+
+  def add_skills(classes)
+    classes.each do |c_class|
+      c_class.skills.each do |skill|
+        @skills << skill unless @skills.any? { |sk| sk == skill }
+      end
+    end
   end
 end

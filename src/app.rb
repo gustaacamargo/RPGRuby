@@ -34,27 +34,21 @@ while option != 7
     case option
     when 1
       character_view.insert_character
-      clear_with_message
     when 2
       character_class_view.insert_character_class
-      clear_with_message
     when 3
-      puts 'op3'
+      character_view.practice
     when 4
       character_view.calculate_atk_def
-      clear_with_message
     when 5
       character_view.select_by_race
-      clear_with_message
     when 6
       character_view.select_by_class
-      clear_with_message
     else
       puts 'Você escolheu sair...'
-      clear_with_message
     end
   else
     puts 'Opção inválida, selecione outra!'
-    clear_with_message
   end
+  clear_with_message
 end

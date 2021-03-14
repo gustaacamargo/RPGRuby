@@ -34,31 +34,64 @@ class CharactersView
     puts @character_controller.return_all_characters
   end
 
-  def select_by_class
+  def practice
+    all_characters = @character_controller.return_all_characters
+    selected_character = -1
+    if all_characters.length.positive?
+      while selected_character.negative? || selected_character > (all_characters.length - 1)
+        system('clear')
+        puts 'Deseja treinar qual personagem?'
+        all_characters.map.with_index do |character, index|
+          puts "#{index} - #{character.name}"
+        end
+        print "\n> "
+        selected_character = gets.strip.to_i
+      end
+      character = all_characters[selected_character]
+
+      character_class_selected = return_selected_class(character.classes)
+
+      character.add_class(character_class_selected)
+      character.add_skills([character_class_selected])
+
+      puts 'Classe adicionada ao personagem!'
+    else
+      puts 'Sem personagens para treinar'
+    end
+  end
+
+  def return_selected_class(classes)
     all_classes = @character_class_controller.return_all_characters_classes
+
     selected_class = -1
     while selected_class.negative? || selected_class > (all_classes.length - 1)
       system('clear')
       puts 'Deseja listar personagens de qual classe?'
       all_classes.map.with_index do |character_class, index|
-        puts "#{index} - #{character_class.name}"
+        puts "#{index} - #{character_class.name}" unless classes.any? { |c_class| c_class.name == character_class.name }
       end
       print "\n> "
       selected_class = gets.strip.to_i
     end
+    all_classes[selected_class]
+  end
 
-    name_of_character_class_selected = all_classes[selected_class].name
+  def select_by_class
+    selected_class = return_selected_class
+
+    name_of_character_class_selected = selected_class.name
     system('clear')
     @character_controller.return_characters_by_something(name_of_character_class_selected, 'class') do |character|
       puts "\n\n===== #{character.name} ===== \n\n"
       puts "Idade: #{character.age}"
-      puts "Ataque: #{character.attack}"
-      puts "Defesa: #{character.defense}"
+      # puts "Ataque: #{character.attack}"
+      # puts "Defesa: #{character.defense}"
       puts "Força: #{character.force}"
       puts "Inteligência: #{character.intelligence}"
       puts "Vida: #{character.life}"
       puts "Raça: #{character.race.name}"
       puts "Classes: #{return_name_of_classes(character.classes)}\n"
+      puts "Habilidades: #{character.skills}\n"
     end
   end
 
@@ -68,13 +101,14 @@ class CharactersView
     @character_controller.return_characters_by_something(race_selected, 'race') do |character|
       puts "\n\n===== #{character.name} ===== \n\n"
       puts "Idade: #{character.age}"
-      puts "Ataque: #{character.attack}"
-      puts "Defesa: #{character.defense}"
+      # puts "Ataque: #{character.attack}"
+      # puts "Defesa: #{character.defense}"
       puts "Força: #{character.force}"
       puts "Inteligência: #{character.intelligence}"
       puts "Vida: #{character.life}"
       puts "Raça: #{character.race.name}"
       puts "Classes: #{return_name_of_classes(character.classes)}\n"
+      puts "Habilidades: #{character.skills}\n"
     end
   end
 
